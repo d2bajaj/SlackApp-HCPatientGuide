@@ -18,19 +18,21 @@ public class SlackApp {
     }
 
     public static void main(String[] args) throws Exception {
-        String botToken = "xoxb-1739437941058-1736552516213-yadarFy7DrHLoDIQoIFPCb8X";
+        String botToken = "xoxb-1739437941058-1736552516213-Ix71mNEc8jxZtcQm3GX7L8Xl";
+        String appToken = "xapp-1-A01N47UDJ01-1732833890679-80d777448b69818a6152eeb691dc49e56ac4f6619ba52c6838d70c6ae862d5e4";
+
         App app = new App(AppConfig.builder().singleTeamBotToken(botToken).build());
         app.event(AppMentionEvent.class, (req, ctx) -> {
-            ctx.say("Hi there!");
+            ctx.say("Mention event Jason!");
             return ctx.ack();
         });
 
         app.event(MessageEvent.class, (req, ctx) -> {
-            ctx.say("Hello");
+            ctx.say("Hello Jason");
             return ctx.ack();
         });
 
-        String appToken = "xapp-1-A01N47UDJ01-1732865219862-3dda4c170cfae34f2db5f9610530cd40b3be31602753fe70caff1efeaf4981f5";
+
         SocketModeApp socketModeApp = new SocketModeApp(appToken, app);
         socketModeApp.start();
     }
