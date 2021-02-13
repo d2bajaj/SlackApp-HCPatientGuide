@@ -53,10 +53,12 @@ public class MedicinesSlashCommandHandler implements SlashCommandHandler {
         } else if (patients.size() == 1) {
             // Get meds for patient
             String patientId = patients.get(0);
-            SlashCommandResponse.SlashCommandResponseBuilder builder = SlashCommandResponse.builder();
-            builder.text("List of medicines");
-            builder.blocks()
 
+            /*
+                SlashCommandResponse.SlashCommandResponseBuilder builder = SlashCommandResponse.builder();
+                builder.text("List of medicines");
+                builder.blocks()
+            */
 
             slashCommandContext.respond(String.join(" and ", salesforceData.getMedicines(patientId)));
         } else {
