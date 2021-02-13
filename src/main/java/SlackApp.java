@@ -1,4 +1,5 @@
 import EventHandlers.MedicinesSlashCommandHandler;
+import com.slack.api.RequestConfigurator;
 import com.slack.api.Slack;
 import com.slack.api.app_backend.slash_commands.SlashCommandResponseSender;
 import com.slack.api.app_backend.slash_commands.response.SlashCommandResponse;
