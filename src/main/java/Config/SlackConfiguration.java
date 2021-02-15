@@ -1,9 +1,11 @@
+package Config;
+
 import java.util.Properties;
 
-public class Configuration {
+public class SlackConfiguration {
     Properties configurationFile;
 
-    public Configuration() {
+    public SlackConfiguration() {
         configurationFile = new Properties();
         try {
             configurationFile.load(this.getClass().getClassLoader().getResourceAsStream("config.properties"));

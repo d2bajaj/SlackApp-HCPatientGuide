@@ -18,13 +18,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class MedicinesSlashCommandHandler implements SlashCommandHandler {
+public class SlackCommandMedicinesHandler implements SlashCommandHandler  {
 
-    private ISalesforceData salesforceData;
     private String actionIdUserPicker;
 
-    public MedicinesSlashCommandHandler(String actionIdUserSelectedMedicine) {
-        salesforceData = new SalesforceFakeData();
+    public SlackCommandMedicinesHandler(String actionIdUserSelectedMedicine) {
         actionIdUserPicker = actionIdUserSelectedMedicine;
     }
 
@@ -63,27 +61,5 @@ public class MedicinesSlashCommandHandler implements SlashCommandHandler {
                         .build());
 
         return response;
-    }
-
-    private void replyWithMedicines(SlashCommandRequest slashCommandRequest, SlashCommandContext slashCommandContext) throws IOException {
-        String patientName = slashCommandRequest.getPayload().getText();
-        List<String> patients = salesforceData.getPatients(patientName);
-
-        if (patients == null || patients.size() == 0) {
-            slashCommandContext.respond("No patients found with name " + patientName);
-        } else if (patients.size() == 1) {
-            // Get meds for patient
-            String patientId = patients.get(0);
-
-            /*
-                SlashCommandResponse.SlashCommandResponseBuilder builder = SlashCommandResponse.builder();
-                builder.text("List of medicines");
-                builder.blocks()
-            */
-
-            slashCommandContext.respond(String.join(" and ", salesforceData.getMedicines(patientId)));
-        } else {
-            slashCommandContext.respond("Found multiple matches: " + String.join(" and ", patients));
-        }
     }
 }

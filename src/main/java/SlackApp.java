@@ -1,26 +1,16 @@
-import EventHandlers.MedicinesSlashCommandHandler;
-import EventHandlers.UserSelectedMedicinesHandler;
-import com.slack.api.RequestConfigurator;
-import com.slack.api.Slack;
-import com.slack.api.app_backend.slash_commands.SlashCommandResponseSender;
-import com.slack.api.app_backend.slash_commands.response.SlashCommandResponse;
+import Config.SlackConfiguration;
+import EventHandlers.SlackCommandMedicinesHandler;
+import EventHandlers.ActionCommandUserSelectedMedicinesHandler;
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.AppConfig;
-import com.slack.api.bolt.handler.builtin.BlockActionHandler;
-import com.slack.api.bolt.handler.builtin.SlashCommandHandler;
-import com.slack.api.model.event.AppMentionEvent;
 import com.slack.api.bolt.socket_mode.SocketModeApp;
-import com.slack.api.model.event.AppMentionEvent;
-import com.slack.api.model.event.MessageEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SlackApp {
     static {
         System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "trace");
     }
 
-    private static Configuration configuration = new Configuration();
+    private static SlackConfiguration configuration = new SlackConfiguration();
     private static String medicineSlashCommand = "/medicines";
     private static String actionIdMedicinesUserSelected = "user_select_medicines_action";
 
@@ -31,8 +21,8 @@ public class SlackApp {
 
         App app = new App(AppConfig.builder().singleTeamBotToken(botToken).build());
 
-        app.command(medicineSlashCommand, new MedicinesSlashCommandHandler(actionIdMedicinesUserSelected));
-        app.blockAction(actionIdMedicinesUserSelected, new UserSelectedMedicinesHandler());
+        app.command(medicineSlashCommand, new SlackCommandMedicinesHandler(actionIdMedicinesUserSelected));
+        app.blockAction(actionIdMedicinesUserSelected, new ActionCommandUserSelectedMedicinesHandler());
 
         SocketModeApp socketModeApp = new SocketModeApp(appToken, app);
         socketModeApp.start();

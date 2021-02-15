@@ -8,15 +8,9 @@ public class SalesforceFakeData implements ISalesforceData {
 
     private List<String> PATIENTS = List.of("Jason Bajaj", "Urvi Malviya", "Ajay M S");
     private Map<String, List<String>> PATIENT_MEDICINES = Map.of(
-            "Jason Bajaj", List.of("Jason-Med1", "Jason-Med2", "Jason-Med3"),
-            "Urvi Malviya", List.of("Urvi-Med1"),
-            "Ajay M S", List.of());
-
-
-    @Override
-    public List<String> getPatients(String searchQuery) {
-        return PATIENTS.stream().filter(e -> e.contains(searchQuery)).collect(Collectors.toList());
-    }
+            "U01MNAAFW2H", List.of("Jason-Med1", "Jason-Med2", "Jason-Med3"),
+            "U01NPB2J78Q", List.of("Urvi-Med1"),
+            "U01N5LKQM52", List.of());
 
     @Override
     public List<String> getMedicines(String patientName) {
