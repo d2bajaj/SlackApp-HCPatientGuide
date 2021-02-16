@@ -3,6 +3,7 @@ package EventHandlers;
 import Config.SlackConfiguration;
 import SalesforceData.ISalesforceData;
 import SalesforceData.SalesforceFakeData;
+import SalesforceData.SlackConversations;
 import com.slack.api.Slack;
 import com.slack.api.app_backend.interactive_components.payload.BlockActionPayload;
 import com.slack.api.bolt.context.builtin.ActionContext;
@@ -21,11 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class ActionCommandUserSelectedMedicinesHandler implements BlockActionHandler {
+public class SlackActionCommandUserSelectedMedicinesHandler implements BlockActionHandler {
     private ISalesforceData salesforceData;
-    private static SlackConfiguration configuration = new SlackConfiguration();
+    private SlackConfiguration configuration = new SlackConfiguration();
+    private SlackConversations slackConversations = new SlackConversations();
 
-    public ActionCommandUserSelectedMedicinesHandler() {
+    public SlackActionCommandUserSelectedMedicinesHandler() {
         salesforceData = new SalesforceFakeData();
     }
 
@@ -58,6 +60,7 @@ public class ActionCommandUserSelectedMedicinesHandler implements BlockActionHan
 
         String userId = payload.getActions().get(0).getSelectedUser();
 
+
         UsersInfoResponse userInfo = Slack.getInstance().methods().usersInfo(UsersInfoRequest.builder().token(configuration.getBotToken()).user(userId).build());
         String patientName = userInfo.getUser().getRealName();
 
@@ -84,6 +87,11 @@ public class ActionCommandUserSelectedMedicinesHandler implements BlockActionHan
                                 .text(medicineListText.toString())
                                 .build()))
                         .build());
+
+        /* Respond in separate convo
+        String conversationId = slackConversations.createGroupConversation(List.of(slashCommandContext.getRequestUserId(), userId));
+        slackConversations.sendMessage(conversationId, response);
+        */
 
         slashCommandContext.respond(response);
     }

@@ -1,6 +1,6 @@
 import Config.SlackConfiguration;
+import EventHandlers.SlackActionCommandUserSelectedMedicinesHandler;
 import EventHandlers.SlackCommandMedicinesHandler;
-import EventHandlers.ActionCommandUserSelectedMedicinesHandler;
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.AppConfig;
 import com.slack.api.bolt.socket_mode.SocketModeApp;
@@ -22,7 +22,7 @@ public class SlackApp {
         App app = new App(AppConfig.builder().singleTeamBotToken(botToken).build());
 
         app.command(medicineSlashCommand, new SlackCommandMedicinesHandler(actionIdMedicinesUserSelected));
-        app.blockAction(actionIdMedicinesUserSelected, new ActionCommandUserSelectedMedicinesHandler());
+        app.blockAction(actionIdMedicinesUserSelected, new SlackActionCommandUserSelectedMedicinesHandler());
 
         SocketModeApp socketModeApp = new SocketModeApp(appToken, app);
         socketModeApp.start();
